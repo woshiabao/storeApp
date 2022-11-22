@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.storeapp.mapper.ApiMapper">
+
+    <select id="findById" resultType="java.math.BigDecimal">
+        select balance from user_balance where user_id = #{id}
+    </select>
+
+    <update id="updateByConsume">
+        update user_balance set balance = #{blance} where user_id = #{id}
+    </update>
+
+    <insert id="insertByConsume">
+        insert into user_detail(
+        <if test="consume &lt; 0">
+            expend,
+        </if>
+        <if test="consume &gt; 0">
+            income,
+        </if>
+            oper_user_id,balance,oper_time
+        )values (
+            abs(#{consume}),#{id},#{blance},now()
+        )
+    </insert>
+
+    <select id="findDetail" resultType="com.example.storeapp.entity.Detail">
+        select id,balance,oper_user_id,oper_time,income,expend from user_detail
+    </select>
+
+</mapper>
